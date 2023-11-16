@@ -6,7 +6,7 @@
 /*   By: tjoyeux <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 18:28:47 by tjoyeux           #+#    #+#             */
-/*   Updated: 2023/11/16 15:56:22 by tjoyeux          ###   ########.fr       */
+/*   Updated: 2023/11/16 15:51:40 by tjoyeux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_printf(const char *format, ...)
 	{
 		offset = 1;
 		if (*format == '%')
-			offset = convert((char *)format, NULL);
+			offset = convert(format, NULL);
 		else 
 			write(1, format, 1);
 		format += offset;
@@ -42,5 +42,5 @@ int	ft_printf(const char *format, ...)
 }
 int	main(int argc, char **argv)
 {
-	ft_printf("5=6%%\n");
+	ft_printf("5=6");
 }
