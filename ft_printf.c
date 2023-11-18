@@ -6,63 +6,53 @@
 /*   By: tjoyeux <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 18:28:47 by tjoyeux           #+#    #+#             */
-/*   Updated: 2023/11/17 18:36:52 by tjoyeux          ###   ########.fr       */
+/*   Updated: 2023/11/19 00:47:55 by tjoyeux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdarg.h>
+#include "ft_printf.h"
+#define NB_CONVERTER 1
 
-int	print_percent(char *str)
+void	init_conv_table(t_conv *tab)
 {
-	write (1, str + 1, 1);
-	return (2);
-}
-	
-int	print_char(char c)
-{
-	write (1, &c, 1);
-	return (2);
-}
-
-// This func manage each case of % 
-int	convert_arg(char *str, char *arg)
-{
-	int	offset;
-
-	offset = 1;
-	if (*(str + 1) == '%')
-		offset = print_percent(str);
-	else if (*(str + 1) == 'c')
-		offset = print_char(c);
-	
-	return (offset);
+	tab[0] = (t_conv){"%c", ft_print_c};
 }
 
 // General function which go through the string
-// If it meet a %, send the string and the arg to convert function
 int	ft_printf(const char *format, ...)
 {
-	va_list	args;
-	int	offset;
+	va_list	pa;
+	int		i;
+	int		offset;
+	t_conv	tab_conv[NB_CONVERTER];
 
-	va_start(args, format);
+	va_start(pa, format);
+	init_conv_table(tab_conv);
+	i = 0;
 	while (*format)
 	{
 		offset = 1;
-		if (*format == '%' && *(format + 1) == '%')
-			offset = print_percent((char *)format);
-		else if (*format == '%') 
-			offset = convert_arg((char *)format, va_arg(args, char));//comment savoir le type de args?
+		if (*format == tab_conv[0].ph[0] && *(format + 1) == tab_conv[0].ph[1])
+		{
+			i += ft_print_c(pa);
+			offset = 2;
+		}
 		else 
+		{
 			write(1, format, 1);
+			i++;
+		}
 		format += offset;
 	}
-	return (1); //A corriger plus tard
+	return (i);
 }
+
+#include <stdio.h>
 int	main(int argc, char **argv)
 {
 	char	c = 'a';
+	char	*str = "ab%c\n";
 
-	ft_printf("5=6%%%c\n", c);
+	printf(str, c);
+	ft_printf(str, c);
 }
