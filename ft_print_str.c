@@ -1,30 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_print_str.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjoyeux <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/18 21:50:20 by tjoyeux           #+#    #+#             */
-/*   Updated: 2023/11/19 11:16:01 by tjoyeux          ###   ########.fr       */
+/*   Created: 2023/11/19 10:53:19 by tjoyeux           #+#    #+#             */
+/*   Updated: 2023/11/19 11:10:46 by tjoyeux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
-# include <stdarg.h>
-# include <unistd.h>
-# include <stdlib.h>
+#include "ft_printf.h"
 
-typedef struct	s_conv
+int	ft_print_str(va_list ap)
 {
-	char	*ph;
-	int	(*f)(va_list);
-}		t_conv;
+	char	*str;
 
-void	ft_putchar(int c);
-size_t	ft_strlen(const char *s);
-int	ft_print_c(va_list ap);
-int	ft_print_str(va_list ap);
-
-#endif
+	str = va_arg(ap, char *);
+	write(1, str, ft_strlen(str));
+	return (ft_strlen(str));
+}
