@@ -6,7 +6,7 @@
 /*   By: tjoyeux <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 18:28:47 by tjoyeux           #+#    #+#             */
-/*   Updated: 2023/11/19 12:32:26 by tjoyeux          ###   ########.fr       */
+/*   Updated: 2023/11/20 00:32:11 by tjoyeux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,33 @@ static void	init_conv_table(t_conv *tab)
 }
 // Implement la fonction is_in_tab
 //return length ou 0 si pas dans la tab
-static int	is_in_tab(char *format, t_conv tab, va_list pa)
+
+static int	is_in_tab(const char *format, t_conv *tab, va_list pa
+						, int *str_size)
 {
 	int	tab_counter;
 	int	length;
 
+	tab_counter = 0;
+	while (tab_counter < NB_CONVERTER)
+	{
+		if (*format == tab[tab_counter].ph[0] && 
+			*(format + 1) == tab[tab_counter].ph[1])
+		{
+			length = tab[tab_counter].f(pa);
+			*str_size += length;
+			return (length);
+		}
+		tab_counter++;
+	}
+	return (0);
+}
 
 // General function which go through the string
 int	ft_printf(const char *format, ...)
 {
 	va_list	pa;
 	int		str_size;
-	int		tab_counter;
 	t_conv	tab_conv[NB_CONVERTER];
 
 	va_start(pa, format);
@@ -39,30 +54,20 @@ int	ft_printf(const char *format, ...)
 	str_size = 0;
 	while (*format)
 	{
-		tab_counter = 0;
-		while (tab_counter < NB_CONVERTER)
-		{	
-			if (*format == tab_conv[tab_counter].ph[0] && *(format + 1) == tab_conv[tab_counter].ph[1])
-			{
-				str_size += tab_conv[tab_counter].f(pa);
-				format += 2;
-				break;
-			}
-			tab_counter++;
-		}
-		if (tab_counter == NB_CONVERTER) 
+		if (!is_in_tab(format, tab_conv, pa, &str_size))
 		{
-//			write(1, format, 1);
 			ft_putchar(format[0]);
 			str_size++;
 			format++;
 		}
+		else
+			format += 2;
 	}
 	return (str_size);
 }
-
+/*
 #include <stdio.h>
-int	main(int argc, char **argv)
+int	main(void)
 {
 	char	c = 'a';
 	char	*s = "Tom";
@@ -73,4 +78,5 @@ int	main(int argc, char **argv)
 	printf("len string : %d\n\n", len);
 	len = ft_printf(str, c, s);
 	printf("len string : %d\n\n", len);
-}
+	return (0);
+}*/
