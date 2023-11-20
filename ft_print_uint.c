@@ -1,28 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_utils.c                                  :+:      :+:    :+:   */
+/*   ft_print_uint.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjoyeux <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/18 21:58:02 by tjoyeux           #+#    #+#             */
-/*   Updated: 2023/11/20 14:45:58 by tjoyeux          ###   ########.fr       */
+/*   Created: 2023/11/20 16:39:37 by tjoyeux           #+#    #+#             */
+/*   Updated: 2023/11/20 17:55:53 by tjoyeux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_putchar(int c)
+int	ft_print_uint(va_list ap)
 {
-	write(1, &c, 1);
-}
+	unsigned int	nb;
+	int	i;
+//	int	sign;
+	int	size;
+	char	tab[11];
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
+	nb = va_arg(ap, int);
+//	sign = 0;
 	i = 0;
-	while (s[i])
+/*	if (nb < 0)
+	{
+		ft_putchar('-');
+		sign++;
+		nb *= -1;
+	}*/
+	if (nb == 0)
+	{
+		ft_putchar('0');
+		return (1);
+	}
+	while (nb > 0)
+	{
+		tab[i] = nb % 10 + 48;
+		nb /= 10;
 		i++;
-	return (i);
+	}
+	size = i;
+	while (--i >= 0)
+		 ft_putchar(tab[i]);
+	return (size);
 }
+
+
+		

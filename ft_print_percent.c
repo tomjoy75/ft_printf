@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_utils.c                                  :+:      :+:    :+:   */
+/*   ft_print_percent.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjoyeux <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/18 21:58:02 by tjoyeux           #+#    #+#             */
-/*   Updated: 2023/11/20 14:45:58 by tjoyeux          ###   ########.fr       */
+/*   Created: 2023/11/20 10:33:58 by tjoyeux           #+#    #+#             */
+/*   Updated: 2023/11/20 15:14:21 by tjoyeux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_putchar(int c)
+int	ft_print_percent(va_list ap)
 {
-	write(1, &c, 1);
-}
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	(void)ap;
+	ft_putchar('%');
+	return (1);
 }
