@@ -6,12 +6,12 @@
 /*   By: tjoyeux <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 18:28:47 by tjoyeux           #+#    #+#             */
-/*   Updated: 2023/11/20 17:59:12 by tjoyeux          ###   ########.fr       */
+/*   Updated: 2023/11/21 17:54:09 by tjoyeux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#define NB_CONVERTER 6
+#define NB_CONVERTER 9
 
 static void	init_conv_table(t_conv *tab)
 {
@@ -21,6 +21,10 @@ static void	init_conv_table(t_conv *tab)
 	tab[3] = (t_conv){"%i", ft_print_int};
 	tab[4] = (t_conv){"%d", ft_print_int};
 	tab[5] = (t_conv){"%u", ft_print_uint};
+	tab[6] = (t_conv){"%x", ft_print_hexa_lower};
+	tab[7] = (t_conv){"%X", ft_print_hexa_upper};
+	tab[8] = (t_conv){"%p", ft_print_ptr};
+	
 }
 // Implement la fonction is_in_tab
 //return length ou 0 si pas dans la tab
@@ -43,7 +47,7 @@ static int	is_in_tab(const char *format, t_conv *tab, va_list pa
 		}
 		tab_counter++;
 	}
-	return (0);
+	return (-1);
 }
 
 // General function which go through the string
@@ -58,7 +62,7 @@ int	ft_printf(const char *format, ...)
 	str_size = 0;
 	while (*format)
 	{
-		if (!is_in_tab(format, tab_conv, pa, &str_size))
+		if (is_in_tab(format, tab_conv, pa, &str_size) == -1)
 		{
 			ft_putchar(format[0]);
 			str_size++;
@@ -74,14 +78,15 @@ int	ft_printf(const char *format, ...)
 int	main(void)
 {
 	char	c = 'a';
-	char	*s = "Tom";
-	int	i = -1;
-	char	*str = "%c is a char %s is a string %% is percent \n%i is int %d is decimal %u is unsigned\n";
+	char	*s = "";
+	int	i = -648;
+	int	*n = NULL;
+	char	*str = "%c is a char %s is a string %% is percent \n%i is int %d is decimal %u is unsigned\n%x is hexadecimal(lowcase)\n%X is hexadecimal(uppercase)\n%p is pointer of c\n%p is pointer of i\n%p is a null pointer\n";
 	int	len;
 
-	len = printf(str, c, s, i, i, i);
+	len = printf(str, c, s, i, i, i, i, i, &c, &i, n);
 	printf("len string : %d\n\n", len);
-	len = ft_printf(str, c, s, i, i, i);
+	len = ft_printf(str, c, s, i, i, i, i, i, &c, &i, n);
 	printf("len string : %d\n\n", len);
 	return (0);
 }

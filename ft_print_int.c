@@ -6,45 +6,47 @@
 /*   By: tjoyeux <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:39:37 by tjoyeux           #+#    #+#             */
-/*   Updated: 2023/11/20 18:07:04 by tjoyeux          ###   ########.fr       */
+/*   Updated: 2023/11/21 14:30:06 by tjoyeux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
+static int	create_tab(long n, char *tab, int i)
+{
+	int	sign;
+
+	sign = 1;
+	if (n < 0)
+	{
+		sign = -1;
+		n *= -1;
+	}
+	tab[i] = '\0';
+	if (n == 0)
+	{
+		tab[--i] = '0';
+		return (i);
+	}
+	while (n)
+	{
+		i--;
+		tab[i] = n % 10 + 48;
+		n /= 10;
+	}
+	if (sign == -1)
+		tab[--i] = '-';
+	return (i);
+}
+
 int	ft_print_int(va_list ap)
 {
 	long	nb;
 	int		i;
-	int		sign;
-	int		size;
 	char	tab[11];
 
 	nb = va_arg(ap, int);
-	sign = 0;
-	i = 0;
-	if (nb < 0)
-	{
-		ft_putchar('-');
-		sign++;
-		nb *= -1;
-	}
-	if (nb == 0)
-	{
-		ft_putchar('0');
-		return (1);
-	}
-	while (nb > 0)
-	{
-		tab[i] = nb % 10 + 48;
-		nb /= 10;
-		i++;
-	}
-	size = i + sign;
-	while (--i >= 0)
-		ft_putchar(tab[i]);
-	return (size);
+	i = create_tab(nb, tab, sizeof(tab) - 1);
+	write(1, tab + i, sizeof(tab) - i - 1);
+	return (sizeof(tab) - i - 1);
 }
-
-
-		
