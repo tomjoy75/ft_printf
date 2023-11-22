@@ -6,7 +6,7 @@
 /*   By: tjoyeux <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 18:28:47 by tjoyeux           #+#    #+#             */
-/*   Updated: 2023/11/21 17:54:09 by tjoyeux          ###   ########.fr       */
+/*   Updated: 2023/11/21 18:19:32 by tjoyeux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	ft_printf(const char *format, ...)
 	}
 	return (str_size);
 }
-
+/*
 #include <stdio.h>
 int	main(void)
 {
@@ -89,4 +89,4 @@ int	main(void)
 	len = ft_printf(str, c, s, i, i, i, i, i, &c, &i, n);
 	printf("len string : %d\n\n", len);
 	return (0);
-}
+}*/

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_hexa.c                                    :+:      :+:    :+:   */
+/*   ft_print_ptr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjoyeux <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:39:37 by tjoyeux           #+#    #+#             */
-/*   Updated: 2023/11/22 12:05:10 by tjoyeux          ###   ########.fr       */
+/*   Updated: 2023/11/22 12:04:23 by tjoyeux          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	create_tab(long n, char *tab, int i, int letter_case)
+static int	create_tab(unsigned long long n, char *tab, int i, int letter_case)
 {
 	tab[i] = '\0';
 	if (n == 0)
@@ -32,26 +32,20 @@ static int	create_tab(long n, char *tab, int i, int letter_case)
 	return (i);
 }
 
-int	ft_print_hexa_lower(va_list ap)
+int	ft_print_ptr(va_list ap)
 {
-	unsigned int	nb;
+	void		*ptr;
 	int				i;
-	char			tab[9];
+	char			tab[20];
 
-	nb = va_arg(ap, int);
-	i = create_tab(nb, tab, sizeof(tab) - 1, 87);
+	ptr = va_arg(ap, void *);
+	if (!ptr)
+	{
+		write(1, "(nil)", 5);
+		return (5);
+	}
+	i = create_tab((unsigned long long)ptr, tab, sizeof(tab) - 1, 87);
+	write(1, "0x", 2);
 	write(1, tab + i, sizeof(tab) - i - 1);
-	return (sizeof(tab) - i - 1);
-}
-
-int	ft_print_hexa_upper(va_list ap)
-{
-	unsigned int	nb;
-	int				i;
-	char			tab[9];
-
-	nb = va_arg(ap, int);
-	i = create_tab(nb, tab, sizeof(tab) - 1, 55);
-	write(1, tab + i, sizeof(tab) - i - 1);
-	return (sizeof(tab) - i - 1);
+	return (2 + sizeof(tab) - i - 1);
 }
